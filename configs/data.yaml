@@ -1,0 +1,40 @@
+# Point to the data directory relative to the configs/ folder
+path: data
+
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 22
+names:
+  [
+    "grade_A_cardboard",
+    "grade_A_glass",
+    "grade_A_paper",
+    "grade_A_plastic_bag",
+    "grade_A_plastic_bottle",
+    "grade_A_plastic_container",
+    "grade_B_cardboard",
+    "grade_B_glass",
+    "grade_B_plastic_bag",
+    "grade_B_plastic_bottle",
+    "grade_B_plastic_container",
+    "grade_B_plastic_straw",
+    "trash",
+    "trash_carton",
+    "trash_cup",
+    "trash_facemask",
+    "trash_food_waste",
+    "trash_food_wrapper",
+    "trash_metal",
+    "trash_paper",
+    "trash_styrofoam",
+    "trash_tree_leaf",
+  ]
+
+roboflow:
+  workspace: soh-kai-xuan
+  project: pure-stream-class-merged
+  version: dataset
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/soh-kai-xuan/pure-stream-class-merged/dataset/dataset
