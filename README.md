@@ -110,7 +110,7 @@ RT-DETR is a transformer and must **not** use the ultralytics defaults, which ar
 |---|---|---|---|
 | `lr0` | 0.01 | **0.0001** | RT-DETR paper value for AdamW. The default is ~100x too high. |
 | `amp` | True | **False** | fp16 + AdamW is a known NaN source on DETR-style decoders. |
-| `batch` | -1 | **8** | Auto-batch picked 3, which is too noisy for a transformer (and used only 3 of 12 GB). |
+| `batch` | -1 | **4** | Auto-batch picked 3, too noisy for a transformer. Do not go much higher without checking memory: `amp=False` keeps activations in fp32, roughly doubling usage versus the old AMP run (3.1 GB at batch=3). Watch `GPU_mem` in epoch 1 and raise only if there is headroom. |
 | `warmup_bias_lr` | 0.1 | **0.0** | Wildly high for AdamW bias groups. |
 | `weight_decay` | 0.0005 | **0.0001** | DETR-family standard. |
 

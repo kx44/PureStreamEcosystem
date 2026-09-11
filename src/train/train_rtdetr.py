@@ -23,9 +23,12 @@ def run_training():
                              # is ~100x too high for AdamW on a transformer.
         amp=False,           # fp16 + AdamW is a known NaN source on RT-DETR.
                              # Costs ~20-30% speed, buys numerical stability.
-        batch=8,             # explicit. batch=-1 auto-picked 3, which is far
-                             # too noisy for a transformer (and used only 3 of
-                             # 12 GB VRAM anyway).
+        batch=4,             # explicit; batch=-1 auto-picked 3, too noisy for a
+                             # transformer. Kept modest because amp=False stores
+                             # activations in fp32 -- roughly double the memory of
+                             # the old AMP run, which used 3.1 GB at batch=3.
+                             # Check GPU_mem during epoch 1: if it sits under
+                             # ~7 GB of the 12 GB card, raise to 6, then 8.
 
         warmup_epochs=5.0,   # gentler ramp than the default 3.0
         warmup_bias_lr=0.0,  # default 0.1 is wildly high for AdamW bias groups
