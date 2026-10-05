@@ -29,7 +29,21 @@ This codebase is the object-detection pipeline behind the "camera" step above.
 
 - **Dataset**: custom-annotated, 22 classes covering grade A/B recyclables (cardboard, glass, paper, plastic bags/bottles/containers) and trash (food waste, wrappers, facemasks, metal, styrofoam, etc.) — see `configs/data.yaml`. Sourced via Roboflow (`soh-kai-xuan/pure-stream-class-merged`).
 - **Models**: `src/train/train_yolov10.py` (YOLOv10n) and `src/train/train_rtdetr.py` (RT-DETR, AdamW + cosine LR) — both 100 epochs, auto-batch, tuned for an RTX 5070 Ti. `src/train/resume_rtdetr.py` resumes from the last RT-DETR checkpoint.
-- **Live demo**: `src/webcam.py` runs the trained YOLOv10 weights (`weights/yolov10_purestream_best.pt`) against a webcam/camera feed at 50% confidence and prints detected classes in real time.
+- **Live demo**: `src/webcam.py` runs the trained YOLOv10 weights (`weights/yolov10_purestream_best.pt`) against a webcam/camera feed at 50% confidence and prints detected classes in real time. Press `r` to rig the object in view to a class (below), `q` to quit.
+
+### Rigging new objects
+
+When an object the model does not recognise (or gets wrong) is in front of the camera, press **`r`** in the demo window:
+
+1. The demo looks for the object in the current frame, searching down to 5% confidence. If nothing turns up, drag a box around it yourself.
+2. The proposed box is drawn in orange and the terminal lists the 22 classes. Press Enter to accept the model's guess, or type a class number or name. `d` redraws the box by hand, `s` skips.
+3. The frame and its YOLO label are saved to `data/rigged/images` and `data/rigged/labels`.
+
+Rigged samples are learned on the next training run. To include them, add the folder to the training split in `configs/data.yaml`:
+
+```yaml
+train: [train/images, rigged/images]
+```
 
 ## Deployment target
 
